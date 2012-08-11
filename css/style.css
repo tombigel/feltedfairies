@@ -76,7 +76,11 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .general-footer{position:relative; width: 825px; padding: 15px 0; margin: 0 auto; background: url(../img/footer-devider.png) no-repeat 50% 0;}
 .general-footer .copy{ float:left;}
 .general-footer .social{}
-.general-footer .social a{display: inline-block; width:50px; height:50px; border:1px solid #000; margin: 0 5px; }
+.general-footer .social a{display: inline-block; width:50px; height:44px;}
+.general-footer .facebook{background: url(../img/icon-facebook.png) no-repeat 0 0;}
+.general-footer .pinterest{background: url(../img/icon-pinteres.png) no-repeat 0 0;}
+.general-footer .etsy{background: url(../img/icon-etsy.png) no-repeat 0 0;}
+
 /*Under construction*/
 .under-construction{position: relative; height:100%; min-height: 500px; min-width: 800px;}
 .under-construction .logo{position: absolute; width: 824px; height: 140px; background: url(../img/uc-logo.png) no-repeat 0 0; top: 30% ;left: 50%; margin-left: -412px;}
@@ -90,18 +94,31 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 /*Fairy pages*/
 .fairy-page{}
-.parchment{position: relative; width: 583px; height: 601px; background: url(../img/fp-parchment.gif) no-repeat 0 0; margin: 0 auto 20px;}
+.parchment{position: relative; width: 583px; height: 601px; background: url(../img/fp-parchment.gif) no-repeat 0 0; margin: 0 auto;}
 .parchment-bg{height: 100%; background: url(../img/fp-parchment.png) no-repeat 0 0;}
-.parchment .fairy{position: absolute; left: 375px; top: 85px; width: 175px; height: 330px; border: 1px solid #000;}
-.parchment .stamp{position: absolute; left: 62px; top: 395px; width: 93px; height: 262px; border: 1px solid #000;}
-.parchment .header{margin: 85px 215px 10px 0; height: 40px; width: 300px; border:1px solid #000;}
-.parchment .text{margin: 0 215px 10px 0; height: 240px; width: 300px; border:1px solid #000;}
-.parchment .footer{margin: 0 270px 10px 0; width: 240px; border:1px solid #000;}
+.parchment .fairy{position: absolute; right:30px; top: 85px; width: 195px; height: 350px;}
+.parchment .stamp{position: absolute; left: 62px; top: 380px; width: 88px; height: 257px;;}
+.parchment .header{margin: 120px 225px 0 0; height: 40px; width: 280px;}
+.parchment .text{margin: 0 225px 10px 0; height: 200px; width: 280px;}
+.parchment .text p{margin: 0;}
+.parchment .footer{margin: 0 300px 10px 0; width: 240px;}
 .parchment .approval{}
-.parchment .magic-fairy{height: 30px; width: 150px; border:1px solid #000;}
-.parchment .logo{margin-right: 40px; height: 40px; width: 150px; border:1px solid #000;}
+.parchment .magic-fairy{height: 30px; width: 142px; background: url(../img/magic-fairy.png) no-repeat 100% 0;}
+.parchment .logo{position: absolute; top:470px; right:60px; height: 46px; width: 111px;background: url(../img/fp-logo.png) no-repeat 0 0;}
 
-.fairy-page .print-certificate{width: 200px; height: 40px; margin: 0 auto; display:block; border:1px solid #000;}
+.love .header{background: url(../img/header-love.png) no-repeat 100% 0}
+.love .fairy{background: url(../img/fairy-love.png) no-repeat 0 0;}
+.love .stamp{background: url(../img/stamp-love.png) no-repeat 0 0;}
+
+.dreams .header{background: url(../img/header-dream.png) no-repeat 100% 0}
+.dreams .fairy{background: url(../img/fairy-dream.png) no-repeat 0 0;}
+.dreams .stamp{background: url(../img/stamp-dream.png) no-repeat 0 0;}
+
+.wishes .header{background: url(../img/header-wishes.png) no-repeat 100% 0}
+.wishes .fairy{background: url(../img/fairy-wishes.png) no-repeat 0 0;}
+.wishes .stamp{background: url(../img/stamp-wishes.png) no-repeat 0 0;}
+
+.fairy-page .print-certificate{cursor:pointer; width: 177px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
 .fairy-page .general-footer{box-sizing: border-box; padding: 15px 130px}
 
 /**************/
