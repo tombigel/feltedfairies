@@ -94,6 +94,12 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 /*Fairy pages*/
 .fairy-page{}
+
+.fairy-form{margin: 100px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,.1)}
+.fairy-form input{ display: block; padding: 5px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
+.fairy-form button{ padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
+.fairy-form .message{display:none; color: #b00; font-size: 16px; text-align: center; }
+
 .parchment{position: relative; width: 583px; height: 601px; background: url(../img/fp-parchment.gif) no-repeat 0 0; margin: 0 auto;}
 .parchment-bg{height: 100%; background: url(../img/fp-parchment.png) no-repeat 0 0;}
 .parchment .fairy{position: absolute; right:30px; top: 85px; width: 195px; height: 350px;}
@@ -119,7 +125,7 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .wishes .stamp{background: url(../img/stamp-wishes.png) no-repeat 0 0;}
 
 .fairy-page .print-certificate{cursor:pointer; width: 177px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
-.fairy-page .general-footer{box-sizing: border-box; padding: 15px 130px}
+.fairy-page .general-footer{box-sizing: border-box; padding: 15px 130px; margin-top: 15px;}
 
 /**************/
 

@@ -1,19 +1,28 @@
-<article class="parchment {{class}}">
+<article id="fairy-text" class="parchment {{class}}">
     <div class="parchment-bg clearfix">
-        <div class="fairy"></div>
-        <div class="stamp"></div>
-        <header>
-            <h1 class="header ir">{{header}}</h1>
-        </header>
-        <div class="text">
-            <p>{{{text}}}</p>
+        <form class="fairy-form" id="fairy-details">
+            <h1>תעודת לידה לפייה</h1>
+            <p>מלאו את פרטי הפייה שלכם ותוכלו להדפיס לה תעודת לידה ייחודית</p>
+            <input type="text" id="form-name" placeholder="מה שם הפייה?">
+            <input type="text" id="form-place" placeholder="איפה נולדה הפייה?">
+            <button type="submit" id="fairy-details-submit">למילוי התעודה</button>
+            <div class="message" id="form-message"><strong>יש למלא שם ומקום בתעודה</strong></div>
+        </form>
+        <div id="fairy-certificate">
+            <div class="fairy"></div>
+            <div class="stamp"></div>
+            <header>
+                <h1 class="header ir">{{header}}</h1>
+            </header>
+            <div class="text">
+                <p>{{{text}}}</p>
+            </div>
+            <footer class="footer">
+                <span class="approval">באישור</span>
+                <span class="magic-fairy ir">הפייה הקסומה</span>
+            </footer>
+            <div class="logo ir">טיפות טל</div>
         </div>
-
-        <footer class="footer">
-            <span class="approval">באישור</span>
-            <span class="magic-fairy ir">הפיה הקסומה</span>
-        </footer>
-        <div class="logo ir">טיפות טל</div>
     </div>
 </article>
-<a class="print-certificate ir" type="button">להדפיס את התעודה</a>
+<!--<a class="print-certificate ir" type="button">להדפיס את התעודה</a>-->

@@ -1,75 +1,149 @@
-window.Template = function (source, target, params) {
-    if (!source) {
+window.Fairy = {};
+
+/**
+ * Simple Router,
+ * handles 2 levels of path  and one hash: example.com/section/page#hash
+ * @constructor
+ */
+Fairy.Router = function() {
+    var path = window.location.pathname;
+    path = path.replace(/^\/|\/$/g, '');
+    var pathList = path.split('/');
+    var hash = window.location.hash;
+
+    this.page = function() {
+        return (pathList.length > 0) ? pathList[pathList.length - 1] : ''
+    };
+
+    this.section = function() {
+        return (pathList.length > 1) ? pathList[0] : ''
+    };
+
+    this.hash = function() {
+        return hash;
+    }
+};
+
+/**
+ * Simple template compiler (based on Handlebars.js)
+ * @param templateSource
+ * The source file for the template - any text based file with html content (same origin)
+ * @param contextSource
+ * A json file with the template context strings
+ * @param targetNode
+ * The target element
+ * @param page
+ * The page passed from the router
+ * TODO: Add section support
+ * @constructor
+ */
+Fairy.Template = function(templateSource, contextSource, targetNode, page) {
+    var pages;
+    var template, compiled_template;
+    var json, xhr;
+    var $target = $(targetNode);
+
+    if (!templateSource) {
         log('Missing template URL');
         return;
     }
-    var $target = $(target);
     if (!$target) {
         log('Missing target DOM node');
         return;
     }
-    var compiled_template = '';
-    var action = (params && params.action);
-    var pages = {
-        default:{
-            class :'love',
-            header:'פיית האהבה',
-            text  :'לפני שנים רבות ביער קסום, בין עצים גבוהים ופרפרים צבעוניים,נולדה פיה קטנה, פיית האהבה.<br />\
-            אמא ואבא של הפיה הביטו בה והחליטו מיד ששמה יהיה אהבה.<br />\
-            הם ידעו שהיא תשמור על מי שישמור עליה ושהיא תעניק תחושת חום וביטחון לכל הסובבים אותה ותפזר אהבה גדולה לאוהביה.'
-        },
-        love   :{
-            class :'love',
-            header:'פיית האהבה',
-            text  :'טקסט על פית האהבה'
-        },
-        dreams :{
-            class :'dreams',
-            header:'פיית החלומות',
-            text  :'טקסט על פית החלומות'
-        },
-        wishes :{
-            class :'wishes',
-            header:'פיית המשאלות',
-            text  :'טקסט על פית המשאלות'
-        }
-    };
 
-    var xhr = $.get(source);
-    xhr.error(function () {
-        log('Can\'t load template file');
-    });
-    xhr.success(function (data) {
-        var template = Handlebars.compile(data);
-
-        if (!action || !pages[action]) {
-            action = 'default';
-        }
-
-        var page = pages[action];
-        compiled_template = template(page);
+    json = $.getJSON(contextSource);
+    json.error(function(data) {
+        log('Can\'t load context file', data.responseText);
     });
 
-    this.render = function () {
-        xhr.success(function () {
+    xhr = $.get(templateSource);
+    xhr.error(function(data) {
+        log('Can\'t load template file', data.responseText);
+    });
+
+    function compile(xhrResponse, jsonResponse) {
+        pages = jsonResponse[0];
+        template = Handlebars.compile(xhrResponse[0]);
+        if (!page || !pages[page]) {
+            page = 'default';
+        }
+        var context = pages[page];
+        compiled_template = template(context);
+    }
+
+    $.when(xhr, json).then(compile);
+
+    this.render = function(callback, callbackArgs) {
+        $.when(xhr, json).then(function() {
             if (!$target || !compiled_template) {
-                log('Template was not initialized correctly');
+                log('Template was not initialized correctly', $target, compiled_template);
                 return;
             }
             $target.html(compiled_template);
+            if (callback){
+                callback.apply(window, callbackArgs);
+            }
         });
-
     };
-
 };
 
-$(document).ready(function () {
-    var page = window.location.pathname.replace(/^\/|\/$/g, '');
-    page = page.split('/');
-    var route = {
-        action: (page.length > 0) ? page[page.length - 1] : ''
+/**
+ * Handle fairy details form
+ * @constructor
+ */
+Fairy.Details = function() {
+    var form, name, place, message, certificate;
+
+    function hideMessage() {
+        message.fadeOut();
+    }
+
+    this.submit = function() {
+        var nameVal = name.val();
+        var placeVal = place.val();
+        if (nameVal && placeVal) {
+            $('.fairy-name').text(nameVal);
+            $('.fairy-place').text(placeVal);
+            form.fadeOut(function(){
+                certificate.fadeIn();
+            });
+        }
+        else {
+            message.fadeIn();
+            name.one('keydown', hideMessage);
+            place.one('keydown', hideMessage);
+        }
+        return false;
     };
-    var template = new Template('templates/fairy-template.html', '.main', route);
-    template.render();
+
+    this.init = function() {
+        form = $('#fairy-details');
+        name = $('#form-name');
+        place = $('#form-place');
+        message = $('#form-message');
+        certificate = $('#fairy-certificate');
+        form.on('submit', this.submit);
+        certificate.hide();
+    };
+};
+
+$(document).ready(function() {
+    var route = new Fairy.Router();
+    var template = new Fairy.Template(
+        'templates/fairy-template.html',
+        'templates/fairy-pages.json',
+        '.main',
+        route.page()
+    );
+
+    template.render(onRender);
+
+    function onRender(){
+        if (document.forms['fairy-details']) {
+            var fairyDetails = new Fairy.Details();
+            fairyDetails.init();
+        }
+    }
 });
 

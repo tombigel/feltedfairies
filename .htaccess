@@ -328,6 +328,14 @@ FileETag None
 </IfModule>
 
 
+# ----------------------------------------------------------------------
+# Route everything to index.html
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . index.html
+</IfModule>
 
 # ----------------------------------------------------------------------
 # Suppress or force the "www." at the beginning of URLs
