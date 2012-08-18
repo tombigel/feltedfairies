@@ -80,7 +80,7 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .general-footer .facebook{background: url(../img/icon-facebook.png) no-repeat 0 0;}
 .general-footer .pinterest{background: url(../img/icon-pinteres.png) no-repeat 0 0;}
 .general-footer .etsy{background: url(../img/icon-etsy.png) no-repeat 0 0;}
-
+.main{width: 825px; margin:0 auto;}
 /* Under construction */
 .under-construction-logo{margin:0 auto ; width: 824px; height: 140px; background: url(../img/uc-logo.png) no-repeat 0 0;}
 .under-construction{font-size:26px; text-align: center; padding: 100px 0 200px;}
