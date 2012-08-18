@@ -2,24 +2,26 @@ window.Fairy = {};
 
 /**
  * Simple Router,
- * handles 2 levels of path  and one hash: example.com/section/page#hash
+ * handles 2 levels of path and one hash: example.com/section/page#hash
  * @constructor
  */
-Fairy.Router = function() {
-    var path = window.location.pathname;
-    path = path.replace(/^\/|\/$/g, '');
-    var pathList = path.split('/');
-    var hash = window.location.hash;
+Fairy.Router = function () {
+    var path, pathList, hash;
+    path = window.location.pathname.replace(/^\/|\/$/g, '');
 
-    this.page = function() {
+    pathList = path.split('/');
+
+    hash = window.location.hash;
+
+    this.page = function () {
         return (pathList.length > 0) ? pathList[pathList.length - 1] : ''
     };
 
-    this.section = function() {
+    this.section = function () {
         return (pathList.length > 1) ? pathList[0] : ''
     };
 
-    this.hash = function() {
+    this.hash = function () {
         return hash;
     }
 };
@@ -37,14 +39,46 @@ Fairy.Router = function() {
  * TODO: Add section support
  * @constructor
  */
-Fairy.Template = function(templateSource, contextSource, targetNode, page) {
+Fairy.Template = function (dataSource, targetNode, page) {
     var pages;
-    var template, compiled_template;
-    var json, xhr;
-    var $target = $(targetNode);
+    var compiled;
+    var xhr_json, xhr_template;
+    var loadTemplate, compileTemplate;
+    var $target;
 
-    if (!templateSource) {
-        log('Missing template URL');
+    $target = $(targetNode);
+    page = page || 'default';
+
+    loadTemplate = function (jsonResponse) {
+        var template;
+
+        pages = jsonResponse;
+        if (!pages[page]) {
+            page = 'default';
+        }
+
+        template = pages[page].template;
+        xhr_template = $.get(template);
+        xhr_template.success(compileTemplate);
+        xhr_template.error(function (data) {
+            log('Can\'t load template file', data.responseText);
+        });
+
+    };
+
+    compileTemplate = function (xhrResponse) {
+        var template, context, compiled_context;
+        template = Handlebars.compile(xhrResponse);
+
+        context = pages[page].context;
+        compiled_context = template(context);
+        compiled.resolve(compiled_context);
+    };
+
+    compiled = $.Deferred();
+
+    if (!dataSource) {
+        log('Missing data URL');
         return;
     }
     if (!$target) {
@@ -52,39 +86,25 @@ Fairy.Template = function(templateSource, contextSource, targetNode, page) {
         return;
     }
 
-    json = $.getJSON(contextSource);
-    json.error(function(data) {
-        log('Can\'t load context file', data.responseText);
+    xhr_json = $.getJSON(dataSource);
+    xhr_json.success(loadTemplate);
+    xhr_json.error(function (data) {
+        log('Can\'t load json data file', data.responseText);
     });
 
-    xhr = $.get(templateSource);
-    xhr.error(function(data) {
-        log('Can\'t load template file', data.responseText);
-    });
 
-    function compile(xhrResponse, jsonResponse) {
-        pages = jsonResponse[0];
-        template = Handlebars.compile(xhrResponse[0]);
-        if (!page || !pages[page]) {
-            page = 'default';
-        }
-        var context = pages[page];
-        compiled_template = template(context);
-    }
-
-    $.when(xhr, json).then(compile);
-
-    this.render = function(callback, callbackArgs) {
-        $.when(xhr, json).then(function() {
+    this.render = function (callback, callbackArgs) {
+        var render = function (compiled_template) {
             if (!$target || !compiled_template) {
                 log('Template was not initialized correctly', $target, compiled_template);
                 return;
             }
             $target.html(compiled_template);
-            if (callback){
+            if (callback) {
                 callback.apply(window, callbackArgs);
             }
-        });
+        };
+        $.when(compiled).then(render);
     };
 };
 
@@ -92,22 +112,30 @@ Fairy.Template = function(templateSource, contextSource, targetNode, page) {
  * Handle fairy details form
  * @constructor
  */
-Fairy.Details = function() {
+Fairy.Details = function () {
     var form, name, place, message, certificate;
 
-    function hideMessage() {
-        message.fadeOut();
-    }
+    var hideMessage = function (callback) {
+        message.fadeOut(callback);
+    };
 
-    this.submit = function() {
+    var hideForm = function (callback) {
+        form.fadeOut(callback);
+    };
+
+    var showCertificate = function (callback) {
+        certificate.fadeIn(callback);
+    };
+
+    this.submit = function () {
         var nameVal = name.val();
         var placeVal = place.val();
         if (nameVal && placeVal) {
+
             $('.fairy-name').text(nameVal);
             $('.fairy-place').text(placeVal);
-            form.fadeOut(function(){
-                certificate.fadeIn();
-            });
+
+            hideForm(showCertificate);
         }
         else {
             message.fadeIn();
@@ -117,7 +145,7 @@ Fairy.Details = function() {
         return false;
     };
 
-    this.init = function() {
+    this.init = function () {
         form = $('#fairy-details');
         name = $('#form-name');
         place = $('#form-place');
@@ -128,22 +156,22 @@ Fairy.Details = function() {
     };
 };
 
-$(document).ready(function() {
+(function (){
     var route = new Fairy.Router();
     var template = new Fairy.Template(
-        'templates/fairy-template.html',
         'templates/fairy-pages.json',
         '.main',
         route.page()
     );
-
-    template.render(onRender);
-
-    function onRender(){
+    function onRender() {
         if (document.forms['fairy-details']) {
             var fairyDetails = new Fairy.Details();
             fairyDetails.init();
         }
     }
-});
+    $(document).ready(function () {
+        template.render(onRender);
+    });
+}());
+
 

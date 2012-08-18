@@ -82,45 +82,43 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .general-footer .etsy{background: url(../img/icon-etsy.png) no-repeat 0 0;}
 
 /*Under construction*/
-.under-construction{position: relative; height:100%; min-height: 500px; min-width: 800px;}
-.under-construction .logo{position: absolute; width: 824px; height: 140px; background: url(../img/uc-logo.png) no-repeat 0 0; top: 30% ;left: 50%; margin-left: -412px;}
-.under-construction .text{position: absolute; width: 824px; height: 22px; background: url(../img/uc-text.png) no-repeat 0 0; top: 56% ;left: 50%; margin-left: -412px;}
-
-@media all and (max-width: 824px){
-    .under-construction{min-width:0; min-height: 400px; width:100%;}
-    .under-construction .logo{width: 100%; height: 100%; background-size: contain; margin:auto; left:0; }
-    .under-construction .text{width: 100%; height: 100%; background-size: contain;  margin: auto; left: 0;}
-}
+.under-construction-logo{margin:0 auto ; width: 824px; height: 140px; background: url(../img/uc-logo.png) no-repeat 0 0;}
+.under-construction{font-size:26px; text-align: center; padding: 100px 0 200px;}
 
 /*Fairy pages*/
 .fairy-page{}
 
 .fairy-form{margin: 100px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,.1)}
+.fairy-form .header{margin: 0 auto; padding: 0; height: 40px; background-position: 50% 0;}
 .fairy-form input{ display: block; padding: 5px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
 .fairy-form button{ padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
 .fairy-form .message{display:none; color: #b00; font-size: 16px; text-align: center; }
 
 .parchment{position: relative; width: 583px; height: 601px; background: url(../img/fp-parchment.gif) no-repeat 0 0; margin: 0 auto;}
 .parchment-bg{height: 100%; background: url(../img/fp-parchment.png) no-repeat 0 0;}
-.parchment .fairy{position: absolute; right:30px; top: 85px; width: 195px; height: 350px;}
-.parchment .stamp{position: absolute; left: 62px; top: 380px; width: 88px; height: 257px;;}
-.parchment .header{margin: 120px 225px 0 0; height: 40px; width: 280px;}
-.parchment .text{margin: 0 225px 10px 0; height: 200px; width: 280px;}
-.parchment .text p{margin: 0;}
-.parchment .footer{margin: 0 300px 10px 0; width: 240px;}
-.parchment .approval{}
-.parchment .magic-fairy{height: 30px; width: 142px; background: url(../img/magic-fairy.png) no-repeat 100% 0;}
 .parchment .logo{position: absolute; top:470px; right:60px; height: 46px; width: 111px;background: url(../img/fp-logo.png) no-repeat 0 0;}
 
-.love .header{background: url(../img/header-love.png) no-repeat 100% 0}
+.certificate .fairy{position: absolute; right:30px; top: 85px; width: 195px; height: 350px;}
+.certificate .stamp{position: absolute; left: 62px; top: 380px; width: 88px; height: 257px;}
+.certificate .header{margin: 120px 225px 0 0; height: 40px; width: 280px; background-repeat: no-repeat; background-position: 100% 0}
+.certificate .text{margin: 0 225px 10px 0; height: 200px; width: 280px;}
+.certificate .text p{margin: 0;}
+.certificate .footer{margin: 0 300px 10px 0; width: 240px;}
+.certificate .approval{}
+.certificate .magic-fairy{height: 30px; width: 142px; background: url(../img/magic-fairy.png) no-repeat 100% 0;}
+
+
+.home {}
+
+.love .header{background-image: url(../img/header-love.png);}
 .love .fairy{background: url(../img/fairy-love.png) no-repeat 0 0;}
 .love .stamp{background: url(../img/stamp-love.png) no-repeat 0 0;}
 
-.dreams .header{background: url(../img/header-dream.png) no-repeat 100% 0}
+.dreams .header{background-image: url(../img/header-dream.png);}
 .dreams .fairy{background: url(../img/fairy-dream.png) no-repeat 0 0;}
 .dreams .stamp{background: url(../img/stamp-dream.png) no-repeat 0 0;}
 
-.wishes .header{background: url(../img/header-wishes.png) no-repeat 100% 0}
+.wishes .header{background-image: url(../img/header-wishes.png);}
 .wishes .fairy{background: url(../img/fairy-wishes.png) no-repeat 0 0;}
 .wishes .stamp{background: url(../img/stamp-wishes.png) no-repeat 0 0;}
 
