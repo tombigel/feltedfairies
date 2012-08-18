@@ -1,7 +1,7 @@
 window.Fairy = {};
 
 /**
- * Simple Router,
+ * Simple read only router,
  * handles 2 levels of path and one hash: example.com/section/page#hash
  * @constructor
  */
@@ -28,19 +28,35 @@ Fairy.Router = function () {
 
 /**
  * Simple template compiler (based on Handlebars.js)
- * @param templateSource
- * The source file for the template - any text based file with html content (same origin)
- * @param contextSource
- * A json file with the template context strings
+ * Like Router, handles 2 levels of path and one hash: example.com/section/page#hash
+ * @param dataSource
+ * The source json file for the site structure
+ * file structure:
+ * {
+ *     "section": { // <-- Optional
+ *         "page": {
+ *             "template": "/template/file.html" // <-- the template html file to load for this page
+ *             "context" : { // <-- Optional: A list of Handlebars variables
+ *                 "vaiable" : "content"
+ *                 ...
+ *             }
+ *             ...
+ *         }
+ *         ...
+ *     }
+ * }
  * @param targetNode
  * The target element
  * @param page
  * The page passed from the router
- * TODO: Add section support
+ * @param section
+ * The optional section of the page
+ * @param hash
+ * TODO: Handle hash
  * @constructor
  */
-Fairy.Template = function (dataSource, targetNode, page) {
-    var pages;
+Fairy.Template = function (dataSource, targetNode, page, section) {
+    var site_structure, section_pages;
     var compiled;
     var xhr_json, xhr_template;
     var loadTemplate, compileTemplate;
@@ -48,16 +64,29 @@ Fairy.Template = function (dataSource, targetNode, page) {
 
     $target = $(targetNode);
     page = page || 'default';
+    section = section || '';
 
+    /**
+     * Handles the loading of the template corresponding to the current page
+     * @param jsonResponse
+     */
     loadTemplate = function (jsonResponse) {
         var template;
 
-        pages = jsonResponse;
-        if (!pages[page]) {
+        site_structure = jsonResponse;
+
+        if (section && site_structure[section]){
+            section_pages = site_structure[section];
+        }
+        else {
+            section_pages = site_structure;
+        }
+
+        if (!section_pages[page]) {
             page = 'default';
         }
 
-        template = pages[page].template;
+        template = section_pages[page].template;
         xhr_template = $.get(template);
         xhr_template.success(compileTemplate);
         xhr_template.error(function (data) {
@@ -66,11 +95,16 @@ Fairy.Template = function (dataSource, targetNode, page) {
 
     };
 
+    /**
+     * Handles the compilation of the template loaded with loadTemplate
+     * Defines a jQuery.Deferred() object to notify compilation.
+     * @param xhrResponse
+     */
     compileTemplate = function (xhrResponse) {
         var template, context, compiled_context;
         template = Handlebars.compile(xhrResponse);
 
-        context = pages[page].context;
+        context = section_pages[page].context;
         compiled_context = template(context);
         compiled.resolve(compiled_context);
     };
@@ -92,7 +126,14 @@ Fairy.Template = function (dataSource, targetNode, page) {
         log('Can\'t load json data file', data.responseText);
     });
 
-
+    /**
+     * The API function to render a template of a page
+     * waits for the Deferred object from compileTemplate to resolve
+     * @param callback
+     * An optional callback to run after render
+     * @param callbackArgs
+     * Optional argument Array for the callback
+     */
     this.render = function (callback, callbackArgs) {
         var render = function (compiled_template) {
             if (!$target || !compiled_template) {
@@ -161,8 +202,13 @@ Fairy.Details = function () {
     var template = new Fairy.Template(
         'templates/fairy-pages.json',
         '.main',
-        route.page()
+        route.page(),
+        route.section()
     );
+
+    /**
+     * If the page contains a '#fairy-details' form, init the Details object.
+     */
     function onRender() {
         if (document.forms['fairy-details']) {
             var fairyDetails = new Fairy.Details();
@@ -170,7 +216,7 @@ Fairy.Details = function () {
         }
     }
     $(document).ready(function () {
-        template.render(onRender);
+        template.render(onRender, null);
     });
 }());
 
