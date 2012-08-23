@@ -7,10 +7,9 @@ window.Fairy = {};
  */
 Fairy.Router = function () {
     var path, pathList, hash;
+
     path = window.location.pathname.replace(/^\/|\/$/g, '');
-
     pathList = path.split('/');
-
     hash = window.location.hash;
 
     this.page = function () {
@@ -56,7 +55,7 @@ Fairy.Router = function () {
  * @constructor
  */
 Fairy.Template = function (dataSource, targetNode, page, section) {
-    var site_structure, section_pages;
+    var section_pages;
     var compiled;
     var xhr_json, xhr_template;
     var loadTemplate, compileTemplate;
@@ -73,13 +72,11 @@ Fairy.Template = function (dataSource, targetNode, page, section) {
     loadTemplate = function (jsonResponse) {
         var template;
 
-        site_structure = jsonResponse;
-
-        if (section && site_structure[section]){
-            section_pages = site_structure[section];
+        if (section && jsonResponse[section]){
+            section_pages = jsonResponse[section];
         }
         else {
-            section_pages = site_structure;
+            section_pages = jsonResponse;
         }
 
         if (!section_pages[page]) {
@@ -87,6 +84,9 @@ Fairy.Template = function (dataSource, targetNode, page, section) {
         }
 
         template = section_pages[page].template;
+        if (!template){
+            log('Wrong json structure, missing "template" in ', page, section_pages);
+        }
         xhr_template = $.get(template);
         xhr_template.success(compileTemplate);
         xhr_template.error(function (data) {
@@ -172,7 +172,6 @@ Fairy.Details = function () {
         var nameVal = name.val();
         var placeVal = place.val();
         if (nameVal && placeVal) {
-
             $('.fairy-name').text(nameVal);
             $('.fairy-place').text(placeVal);
 
