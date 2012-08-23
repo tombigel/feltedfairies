@@ -73,7 +73,7 @@ html{height:100%;}
 body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 .general-header{}
-.general-footer{position:relative; width: 825px; padding: 72px 0 15px; margin: -57 auto 0; background: url(../img/footer-devider-b.png) no-repeat 50% 0;}
+.general-footer{position:relative; width: 825px; padding: 72px 0 15px; margin: -57px auto 0; background: url(../img/footer-devider-b.png) no-repeat 50% 0;}
 .general-footer .copy{ float:left;}
 .general-footer .social{}
 .general-footer .social a{display: inline-block; width:50px; height:44px;}
