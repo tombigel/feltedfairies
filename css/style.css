@@ -73,7 +73,7 @@ html{height:100%;}
 body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 .general-header{}
-.general-footer{position:relative; width: 825px; margin-top: -57px; padding: 72px 0 15px; margin: 0 auto; background: url(../img/footer-devider-b.png) no-repeat 50% 0;}
+.general-footer{position:relative; width: 825px; padding: 72px 0 15px; margin: -57 auto 0; background: url(../img/footer-devider-b.png) no-repeat 50% 0;}
 .general-footer .copy{ float:left;}
 .general-footer .social{}
 .general-footer .social a{display: inline-block; width:50px; height:44px;}
@@ -124,7 +124,7 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 .fairy-page .print-certificate{cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
 .fairy-page .print-certificate:hover{background-position: 0 -41px}
-.fairy-page .general-footer{box-sizing: border-box; padding: 15px 130px; margin-top: 15px;}
+.fairy-page .general-footer{box-sizing: border-box; padding-left: 130px; padding-right: 130px; margin-top: -42px;}
 
 /**************/
 
