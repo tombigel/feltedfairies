@@ -122,7 +122,7 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .wishes .fairy{background: url(../img/fairy-wishes.png) no-repeat 0 0;}
 .wishes .stamp{background: url(../img/stamp-wishes.png) no-repeat 0 0;}
 
-.print-certificate{cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
+.print-certificate{position:relative; z-index:1; cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
 .print-certificate:hover{background-position: 0 -41px;}
 
 /**************/
