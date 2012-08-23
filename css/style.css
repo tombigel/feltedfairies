@@ -87,11 +87,12 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 /* Fairy pages */
 .fairy-page{}
+.fairy-page .general-footer{box-sizing: border-box; padding-left: 130px; padding-right: 130px;}
 
 .fairy-form{margin: 100px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,.1)}
 .fairy-form .header{margin: 0 auto; padding: 0; height: 40px; background-position: 50% 0;}
-.fairy-form input{ display: block; padding: 5px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
-.fairy-form button{ padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa;}
+.fairy-form input{ display: block; padding: 5px; margin: 10px 0; border-bottom: 1px solid #666; background: none;}
+.fairy-form button{ padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #aaa; background: rgba(255,255,255,.5)}
 .fairy-form .message{display:none; color: #b00; font-size: 16px; text-align: center; }
 
 .parchment{position: relative; width: 583px; height: 601px; background: url(../img/fp-parchment.gif) no-repeat 0 0; margin: 0 auto;}
@@ -107,7 +108,6 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .certificate .approval{}
 .certificate .magic-fairy{height: 30px; width: 142px; background: url(../img/magic-fairy.png) no-repeat 100% 0;}
 
-
 .home {}
 
 .love .header{background-image: url(../img/header-love.png);}
@@ -122,9 +122,8 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 .wishes .fairy{background: url(../img/fairy-wishes.png) no-repeat 0 0;}
 .wishes .stamp{background: url(../img/stamp-wishes.png) no-repeat 0 0;}
 
-.fairy-page .print-certificate{cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
-.fairy-page .print-certificate:hover{background-position: 0 -41px}
-.fairy-page .general-footer{box-sizing: border-box; padding-left: 130px; padding-right: 130px;}
+.print-certificate{cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
+.print-certificate:hover{background-position: 0 -41px;}
 
 /**************/
 
