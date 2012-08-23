@@ -124,7 +124,7 @@ body{background: url(../img/uc-bg.jpg) repeat 50% 50%; height:100%;}
 
 .fairy-page .print-certificate{cursor:pointer; width: 173px; height: 41px; margin: 0 auto; display:block;background: url(../img/print-button.png) no-repeat 0 0;}
 .fairy-page .print-certificate:hover{background-position: 0 -41px}
-.fairy-page .general-footer{box-sizing: border-box; padding-left: 130px; padding-right: 130px; margin-top: -42px;}
+.fairy-page .general-footer{box-sizing: border-box; padding-left: 130px; padding-right: 130px;}
 
 /**************/
 
