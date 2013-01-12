@@ -50,66 +50,18 @@ Fairy.Router = function () {
  * The page passed from the router
  * @param section
  * The optional section of the page
- * @param hash
  * TODO: Handle hash
  * @constructor
  */
 Fairy.Template = function (dataSource, targetNode, page, section) {
-    var section_pages;
-    var compiled;
-    var xhr_json, xhr_template;
-    var loadTemplate, compileTemplate;
-    var $target;
+    var section_pages,
+        xhr_template,
+        xhr_json,
+        compiled = $.Deferred(),
+        $target = $(targetNode);
 
-    $target = $(targetNode);
     page = page || 'default';
     section = section || '';
-
-    /**
-     * Handles the loading of the template corresponding to the current page
-     * @param jsonResponse
-     */
-    loadTemplate = function (jsonResponse) {
-        var template;
-
-        if (section && jsonResponse[section]){
-            section_pages = jsonResponse[section];
-        }
-        else {
-            section_pages = jsonResponse;
-        }
-
-        if (!section_pages[page]) {
-            page = 'default';
-        }
-
-        template = section_pages[page].template;
-        if (!template){
-            log('Wrong json structure, missing "template" in ', page, section_pages);
-        }
-        xhr_template = $.get(template);
-        xhr_template.success(compileTemplate);
-        xhr_template.error(function (data) {
-            log('Can\'t load template file', data.responseText);
-        });
-
-    };
-
-    /**
-     * Handles the compilation of the template loaded with loadTemplate
-     * Defines a jQuery.Deferred() object to notify compilation.
-     * @param xhrResponse
-     */
-    compileTemplate = function (xhrResponse) {
-        var template, context, compiled_context;
-        template = Handlebars.compile(xhrResponse);
-
-        context = section_pages[page].context;
-        compiled_context = template(context);
-        compiled.resolve(compiled_context);
-    };
-
-    compiled = $.Deferred();
 
     if (!dataSource) {
         log('Missing data URL');
@@ -127,6 +79,50 @@ Fairy.Template = function (dataSource, targetNode, page, section) {
     });
 
     /**
+     * Handles the loading of the template corresponding to the current page
+     * @param jsonResponse
+     */
+    function loadTemplate(jsonResponse) {
+        var template;
+
+        if (section && jsonResponse[section]) {
+            section_pages = jsonResponse[section];
+        }
+        else {
+            section_pages = jsonResponse;
+        }
+
+        if (!section_pages[page]) {
+            page = 'default';
+        }
+
+        template = section_pages[page].template;
+        if (!template) {
+            log('Wrong json structure, missing "template" in ', page, section_pages);
+        }
+        xhr_template = $.get(template);
+        xhr_template.success(compileTemplate);
+        xhr_template.error(function (data) {
+            log('Can\'t load template file', data.responseText);
+        });
+
+    }
+
+    /**
+     * Handles the compilation of the template loaded with loadTemplate
+     * Defines a jQuery.Deferred() object to notify compilation.
+     * @param xhrResponse
+     */
+    function compileTemplate(xhrResponse) {
+        var template, compiled_context;
+        template = Handlebars.compile(xhrResponse);
+        compiled_context = template(section_pages[page].context);
+
+        compiled.resolve(compiled_context);
+    }
+
+
+    /**
      * The API function to render a template of a page
      * waits for the Deferred object from compileTemplate to resolve
      * @param callback
@@ -135,7 +131,7 @@ Fairy.Template = function (dataSource, targetNode, page, section) {
      * Optional argument Array for the callback
      */
     this.render = function (callback, callbackArgs) {
-        var render = function (compiled_template) {
+        function render(compiled_template) {
             if (!$target || !compiled_template) {
                 log('Template was not initialized correctly', $target, compiled_template);
                 return;
@@ -144,7 +140,8 @@ Fairy.Template = function (dataSource, targetNode, page, section) {
             if (callback) {
                 callback.apply(window, callbackArgs);
             }
-        };
+        }
+
         $.when(compiled).then(render);
     };
 };
@@ -196,7 +193,7 @@ Fairy.Details = function () {
     };
 };
 
-(function (){
+(function () {
     var route = new Fairy.Router();
     var template = new Fairy.Template(
         'templates/fairy-pages.json',
@@ -214,6 +211,7 @@ Fairy.Details = function () {
             fairyDetails.init();
         }
     }
+
     $(document).ready(function () {
         template.render(onRender, null);
     });
